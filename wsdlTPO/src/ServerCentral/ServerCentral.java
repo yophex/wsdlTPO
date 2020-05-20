@@ -1,4 +1,4 @@
-package wsdlTPO;
+package ServerCentral;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
