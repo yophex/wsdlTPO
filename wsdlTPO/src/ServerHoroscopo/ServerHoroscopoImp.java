@@ -8,7 +8,7 @@ import java.util.Random;
 import javax.jws.WebService;
 
 //Service Implementation
-@WebService(endpointInterface = "ws.Suma")
+@WebService(endpointInterface = "ServerHoroscopo.ServerHoroscopo")
 public class ServerHoroscopoImp implements ServerHoroscopo {
 	
 	
