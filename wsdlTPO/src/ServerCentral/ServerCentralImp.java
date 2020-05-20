@@ -59,7 +59,7 @@ public class ServerCentralImp implements ServerCentral{
 	}
 	
 	public ArrayList<String> getPronostico(String horoscopo, String fecha, String clientName) {
-		//Se verifica que la solicitud sea válida y se responde con un 
+		//Se verifica que la solicitud sea vï¿½lida y se responde con un 
         //pronostico si lo es, o un mensaje de error en caso contrario.
 
         String servidorCentralStr = "ServidorCentral-" + clientName;
@@ -178,10 +178,10 @@ public class ServerCentralImp implements ServerCentral{
         int indexA = fecha.indexOf("-"), indexB = fecha.indexOf("-", indexA + 1),
                 dia, mes, anio;
 
-        //Se verifica que la fecha recibida cumpla el formato DD-MM-A... (el año puede ser desde 0 en adelante)        
+        //Se verifica que la fecha recibida cumpla el formato DD-MM-A... (el aï¿½o puede ser desde 0 en adelante)        
         if (indexA == 2 && indexB == 5 && fecha.length() >= 7) {
             try {
-                //Luego se obtiene los valores para cada dia, mes y año.
+                //Luego se obtiene los valores para cada dia, mes y aï¿½o.
                 dia = Integer.parseInt(fecha.substring(0, indexA));
                 mes = Integer.parseInt(fecha.substring(indexA + 1, indexB));
                 anio = Integer.parseInt(fecha.substring(indexB + 1));
@@ -191,7 +191,7 @@ public class ServerCentralImp implements ServerCentral{
             }
             //Se controla que el dia sea valido
             if (dia >= 1 && dia <= 31) {
-                //Si el mes es febrero, se verifica si el año es bisiesto, y que el dia sea 
+                //Si el mes es febrero, se verifica si el aï¿½o es bisiesto, y que el dia sea 
                 //menor a 29 dias, caso contrario 28 dias                    
                 if (mes == 2) {
                     if ((anio % 4 == 0 && anio % 100 != 0) || anio % 400 == 0) {
@@ -203,6 +203,11 @@ public class ServerCentralImp implements ServerCentral{
                             respuesta = "FD";
                         }
                     } else if (dia <= 28) {
+                        
+                        
+                        //TEST
+                        
+                        
                         respuesta = "valida";
                     } else {
                         //Error en el dia recibido, la fecha tiene mas dias de 
@@ -220,12 +225,12 @@ public class ServerCentralImp implements ServerCentral{
                     respuesta = "FM";
                 }
             } else {
-                //Error en el dia recibido, la fecha cuenta con más de 31 días
+                //Error en el dia recibido, la fecha cuenta con mï¿½s de 31 dï¿½as
                 respuesta = "FD";
             }
 
         } else {
-            //Wrror en el formato de la fecha recibida, no se respetó el formato
+            //Wrror en el formato de la fecha recibida, no se respetï¿½ el formato
             respuesta = "PC"; //Protocolo Clima
         }
         return respuesta;
