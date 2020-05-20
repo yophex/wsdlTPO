@@ -1,5 +1,6 @@
 package ServerHoroscopo;
 
+import Log.Log;
 import javax.xml.ws.Endpoint;
 
 import tano.SumaImpl;
