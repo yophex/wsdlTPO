@@ -205,7 +205,7 @@ public class ServerCentralImp implements ServerCentral{
                     } else if (dia <= 28) {
                         
                         
-                        //TEST
+                        //TEST anduvo
                         
                         
                         respuesta = "valida";
