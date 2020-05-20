@@ -203,11 +203,6 @@ public class ServerCentralImp implements ServerCentral{
                             respuesta = "FD";
                         }
                     } else if (dia <= 28) {
-                        
-                        
-                        //TEST anduvo
-                        
-                        
                         respuesta = "valida";
                     } else {
                         //Error en el dia recibido, la fecha tiene mas dias de 
