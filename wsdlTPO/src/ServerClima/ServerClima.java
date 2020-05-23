@@ -9,7 +9,6 @@ import javax.jws.soap.SOAPBinding.Style;
 @SOAPBinding(style = Style.DOCUMENT)
 public interface ServerClima {
 	
-	
-	@WebMethod public String getClima(String fecha, String clientName);
+		@WebMethod public String getClima(String fecha, String clientName);
 	
 }

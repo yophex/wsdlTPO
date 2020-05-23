@@ -35,7 +35,7 @@ public class PublicadorServerHoroscopo {
         } catch (SecurityException | IOException ex) {
             System.out.println("->ServerHoroscopo: No se pudo iniciar el Log");
         }
-*/		port=10000;
+*/		port=10000;//////////////////////////////////////////////////
         Endpoint.publish("http://"+ipAdress+":"+port+"/ws/Horoscopo", new ServerHoroscopoImp());
 
         

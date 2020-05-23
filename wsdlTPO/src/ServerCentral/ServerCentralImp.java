@@ -43,7 +43,7 @@ public class ServerCentralImp implements ServerCentral {
         	URL urlHoroscopo = new URL("http://"+ipHoroscopo+":"+portHoroscopo+"/ws/Horoscopo?wsdl");
         	QName qnameHoroscopo = new QName("http://ServerHoroscopo/", "ServerHoroscopoImpService");
     	    Service serviceHoroscopo = Service.create(urlHoroscopo, qnameHoroscopo);
-    	    ServerHoroscopo servicioHoroscopo = serviceHoroscopo.getPort(ServerHoroscopo.class);
+    	    this.servicioHoroscopo = serviceHoroscopo.getPort(ServerHoroscopo.class);
                         
             //this.svrHoroscopo = (ServerHoroscopo) Naming.lookup("//" + ipHoroscopo + ":" + portHoroscopo + "/ServerHoroscopo");
     	    
@@ -52,7 +52,7 @@ public class ServerCentralImp implements ServerCentral {
             URL urlClima = new URL("http://"+ipClima+":"+portClima+"/ws/Clima?wsdl");
         	QName qnameClima = new QName("http://ServerClima/", "ServerClimaImpService");
     	    Service serviceClima = Service.create(urlClima, qnameClima);
-    	    ServerClima sum = serviceClima.getPort(ServerClima.class);
+    	    this.servicioClima= serviceClima.getPort(ServerClima.class);
             
             //this.svrClima = (ServerClima) Naming.lookup("//" + ipClima + ":" + portClima + "/ServerClima");
             
@@ -71,7 +71,7 @@ public class ServerCentralImp implements ServerCentral {
 		// pronostico si lo es, o un mensaje de error en caso contrario.
 
 		String servidorCentralStr = "ServidorCentral-" + clientName;
-		Log.logInfo(servidorCentralStr, "Se recibe una nueva solicitud de: " + "<" + horoscopo + ", " + fecha + ">");
+		//Log.logInfo(servidorCentralStr, "Se recibe una nueva solicitud de: " + "<" + horoscopo + ", " + fecha + ">");
 		System.out.println("->ServidorCentral: Se recibe una solicitud nueva de: " + clientName);
 
 		String respuestaHoroscopo, respuestaClima, rtaValidacion, claveCache, clave;
@@ -85,14 +85,14 @@ public class ServerCentralImp implements ServerCentral {
 				// Se consulta de la cache
 				claveCache = horoscopo + fecha;
 				respuestaCache = cache.get(claveCache);
-				Log.logInfo(servidorCentralStr, "La consulta a la cache con la clave: " + claveCache + " respondio: "
-						+ (respuestaCache != null ? "Consulta encontrada" : "Consulta no encontrada"));
+				//Log.logInfo(servidorCentralStr, "La consulta a la cache con la clave: " + claveCache + " respondio: "
+					//	+ (respuestaCache != null ? "Consulta encontrada" : "Consulta no encontrada"));
 
 				if (respuestaCache != null) {
 					// La cache tuvo exito
 					if (respuestaCache[0].equals("respuestaEnCurso")) {
 						while (respuestaCache[0].equals("respuestaEnCurso")) {
-							Log.logInfo(servidorCentralStr, "Esperando por respuesta en curso");
+							//Log.logInfo(servidorCentralStr, "Esperando por respuesta en curso");
 							semaforoCache.acquire();
 							respuestaCache = this.cache.get(claveCache);
 						}
@@ -101,15 +101,15 @@ public class ServerCentralImp implements ServerCentral {
 
 					respuesta.add(respuestaCache[0]);
 					respuesta.add(respuestaCache[1]);
-					Log.logInfo(servidorCentralStr,
-							"La cache respondio: " + "<" + respuestaCache[0] + "; " + respuestaCache[1] + ">");
+					//Log.logInfo(servidorCentralStr,
+							//"La cache respondio: " + "<" + respuestaCache[0] + "; " + respuestaCache[1] + ">");
 				} else {
 					// Si la cache no tuvo exito se realiza la consulta
 
 					// Se bloquea a los siguientes hilos para que no busquen una consulta igual a
 					// otro
 					semaforoCache.acquire();
-					Log.logInfo(servidorCentralStr, "Realiza una consulta a los Servidores");
+					//Log.logInfo(servidorCentralStr, "Realiza una consulta a los Servidores");
 					cache.put(claveCache, new String[] { "respuestaEnCurso" });
 
 					respuestaHoroscopo = servicioHoroscopo.getHoroscopo(horoscopo, clientName);
@@ -126,7 +126,7 @@ public class ServerCentralImp implements ServerCentral {
 							clave = horoscopo + fecha;
 							// El valor se forma con las respuestas correctas de ambos servidores
 							valor = new String[] { respuestaHoroscopo, respuestaClima };
-							Log.logInfo(servidorCentralStr, "Se almacena en cache la clave: " + clave);
+							//Log.logInfo(servidorCentralStr, "Se almacena en cache la clave: " + clave);
 							cache.put(clave, valor);
 
 							// Se le responde al cliente la solicitud
@@ -135,10 +135,10 @@ public class ServerCentralImp implements ServerCentral {
 							// Se libera las consultas iguales en espera, debido que la cache ya tiene su
 							// respuesta
 							this.semaforoCache.release();
-							Log.logInfo(servidorCentralStr,
-									"Se responde al cliente con: <" + respuestaHoroscopo + "; " + respuestaClima + ">");
-							Log.logInfo(servidorCentralStr,
-									"Se libera las consultas iguales en espera, debido que la cache ya tiene su respuesta");
+							//Log.logInfo(servidorCentralStr,
+									//"Se responde al cliente con: <" + respuestaHoroscopo + "; " + respuestaClima + ">");
+							//Log.logInfo(servidorCentralStr,
+									//"Se libera las consultas iguales en espera, debido que la cache ya tiene su respuesta");
 						} else {
 							// Se le responde al cliente del error en clima
 							respuesta.add(respuestaClima);
@@ -149,11 +149,11 @@ public class ServerCentralImp implements ServerCentral {
 					}
 				}
 			} else {
-				Log.logError(servidorCentralStr, "Se responde al Cliente: " + rtaValidacion);
+				//Log.logError(servidorCentralStr, "Se responde al Cliente: " + rtaValidacion);
 				respuesta.add(rtaValidacion);
 			}
 		} catch (InterruptedException ex) {
-			Log.logError(servidorCentralStr, "Error al esperar por la respuesta: " + ex.getMessage());
+			//Log.logError(servidorCentralStr, "Error al esperar por la respuesta: " + ex.getMessage());
 			respuesta.add("SC");
 			return respuesta;
 		}

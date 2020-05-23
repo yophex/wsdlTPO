@@ -46,7 +46,7 @@ public class Client{
       //System.out.println(horoscopo.getHoroscopo("AR", "El cliente numero 1"));
       //System.out.println(clima.getClima("05-05-2020", "El cliente numero 1"));
         ArrayList<String> respuesta=central.getPronostico("AR", "05-05-2020", "El cliente numero 1");
-        System.out.println("El clima es"+respuesta.get(2)+ " y el horoscopo es"+respuesta.get(1));
+        System.out.println("El clima es "+respuesta.get(1)+ " y el horoscopo es "+respuesta.get(0));
         
     }
  
