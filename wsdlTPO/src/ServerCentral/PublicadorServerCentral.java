@@ -4,7 +4,7 @@ import java.io.IOException;
 import javax.xml.ws.Endpoint;
 import Log.Log;
 
-public class ServerCentralPublisher {
+public class PublicadorServerCentral {
 
     private static String ipAdress = "127.0.0.1"; // La ip se define local por defecto
     private static int port;
