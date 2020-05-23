@@ -2,6 +2,7 @@ package ServerCentral;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.rmi.RemoteException;
 
 import javax.xml.ws.Endpoint;
 
@@ -10,12 +11,12 @@ import Log.Log;
 public class ServerCentralPublisher {
 
 	private static String ipAdress = "127.0.0.1"; // La ip se define local por defecto
-	private static int port;
+	private static int port=10003; //CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws RemoteException {
 		String ipHoroscopo, ipClima;
 		int portHoroscopo, portClima;
-		if (args.length != 5) {
+		/*if (args.length != 5) {
 			System.err.println("Los parametros recibidos son incorrectos se requiere:"
 					+ "\nDireccion ip y puerto del servidor horoscopo, " + "\nDireccion ip y puerto del servidor clima,"
 					+ "\nPuerto donde se ejecutara el servidor central");
@@ -39,18 +40,22 @@ public class ServerCentralPublisher {
 		} catch (SecurityException | IOException ex) {
 			System.out.println("->ServerCentral: No se pudo iniciar el Log");
 		}
-
+*/
 		try {
+			ipHoroscopo=ipAdress;
+			portHoroscopo=10000;
+			ipClima=ipAdress;
+			portClima=10001;
 			ServerCentral serverCentral = new ServerCentralImp(ipHoroscopo, portHoroscopo, ipClima, portClima);
 			Endpoint.publish("http://" + ipAdress + ":" + port + "/ws/ServicioCentral", serverCentral); //////////publicacion
 
 			// Naming.rebind("rmi://" + ipAdress + ":" + port + "/ServerCentral",
 			// serverCentral);
 
-			Log.logInfo("ServidorCentral", "Publicado");
+		//	Log.logInfo("ServidorCentral", "Publicado");
 			System.out.println("->ServidorCentral: Publicado");
 		} catch (MalformedURLException e) {
-			Log.logError("ServidorCentral", "Error en la URL de rmi - " + e.getMessage());
+		//	Log.logError("ServidorCentral", "Error en la URL de rmi - " + e.getMessage());
 			System.err.println("->ServidorCentral: Error en la URL de rmi: " + e.getMessage());
 			System.exit(1);
 		}

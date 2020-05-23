@@ -1,4 +1,4 @@
-package ServerHoroscopo;
+package ServerClima;
 
 import Log.Log;
 
@@ -9,7 +9,7 @@ import javax.xml.ws.Endpoint;
 
 
 
-public class PublicadorServerHoroscopo {
+public class PublicadorServerClima{
 	
 	
 	private static String ipAdress = "127.0.0.1"; //La ip se define local por defecto
@@ -35,8 +35,8 @@ public class PublicadorServerHoroscopo {
         } catch (SecurityException | IOException ex) {
             System.out.println("->ServerHoroscopo: No se pudo iniciar el Log");
         }
-*/		port=10000;
-        Endpoint.publish("http://"+ipAdress+":"+port+"/ws/Horoscopo", new ServerHoroscopoImp());
+*/		port=10001;
+        Endpoint.publish("http://"+ipAdress+":"+port+"/ws/Clima", new ServerClimaImp());
 
         
     }

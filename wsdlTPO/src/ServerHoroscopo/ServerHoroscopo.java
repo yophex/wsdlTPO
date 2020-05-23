@@ -12,6 +12,6 @@ import javax.jws.soap.SOAPBinding.Style;
 @SOAPBinding(style = Style.DOCUMENT)
 public interface ServerHoroscopo {
 
-	@WebMethod public String getHoroscopo(String solicitud, String clientName)  throws MalformedURLException;
+	@WebMethod public String getHoroscopo(String solicitud, String clientName);
 
 }

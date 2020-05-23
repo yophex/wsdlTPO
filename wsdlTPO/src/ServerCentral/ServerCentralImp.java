@@ -2,6 +2,8 @@ package ServerCentral;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,6 +16,8 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import Log.Log;
+import ServerClima.ServerClima;
+import ServerHoroscopo.ServerHoroscopo;
 
 @WebService(endpointInterface = "ServerCentral.ServerCentral") /////////endpoint
 public class ServerCentralImp implements ServerCentral {
@@ -24,7 +28,7 @@ public class ServerCentralImp implements ServerCentral {
 	private Semaphore semaforoCache;
 	private ArrayList<String> protocoloHoroscopo;
 
-	public ServerCentralImp(String ipHoroscopo, int portHoroscopo, String ipClima, int portClima) throws MalformedURLException{
+	public ServerCentralImp(String ipHoroscopo, int portHoroscopo, String ipClima, int portClima) throws MalformedURLException, RemoteException{
 		Hashtable<String, String[]> mapa = new Hashtable<>();
         this.cache = Collections.synchronizedMap(mapa);
         this.semaforoCache = new Semaphore(1);
@@ -37,30 +41,31 @@ public class ServerCentralImp implements ServerCentral {
         try {
         	
         	URL urlHoroscopo = new URL("http://"+ipHoroscopo+":"+portHoroscopo+"/ws/Horoscopo?wsdl");
-        	QName qnameHoroscopo = new QName("http://wsSHoroscopo/", "ServicioHoroscopoImpl");
+        	QName qnameHoroscopo = new QName("http://ServerHoroscopo/", "ServerHoroscopoImpService");
     	    Service serviceHoroscopo = Service.create(urlHoroscopo, qnameHoroscopo);
     	    ServerHoroscopo servicioHoroscopo = serviceHoroscopo.getPort(ServerHoroscopo.class);
                         
             //this.svrHoroscopo = (ServerHoroscopo) Naming.lookup("//" + ipHoroscopo + ":" + portHoroscopo + "/ServerHoroscopo");
     	    
-            Log.logInfo("ServidorCentral", "Se conecto al Servidor Horoscopo");
+       //     Log.logInfo("ServidorCentral", "Se conecto al Servidor Horoscopo");
             
-            URL urlClima = new URL("http://"+ipHoroscopo+":"+portHoroscopo+"/ws/Clima?wsdl");
-        	QName qnameClima = new QName("http://wsSClima/", "ServicioClimaImpl");
+            URL urlClima = new URL("http://"+ipClima+":"+portClima+"/ws/Clima?wsdl");
+        	QName qnameClima = new QName("http://ServerClima/", "ServerClimaImpService");
     	    Service serviceClima = Service.create(urlClima, qnameClima);
-    	    ServerHoroscopo sum = serviceClima.getPort(ServerClima.class);
+    	    ServerClima sum = serviceClima.getPort(ServerClima.class);
             
             //this.svrClima = (ServerClima) Naming.lookup("//" + ipClima + ":" + portClima + "/ServerClima");
             
-            Log.logInfo("ServidorCentral", "Se conecto al Servidor Clima");
-        } catch (//NotBoundException | MalformedURLException | RemoteException ex) {
-            Log.logError("ServidorCentral", ex.getMessage());
-            System.err.println("->ServidorCentral: ERROR: " + ex.getMessage());
+       //     Log.logInfo("ServidorCentral", "Se conecto al Servidor Clima");
+        } catch (MalformedURLException ex) {
+        		
+       //     Log.logError("ServidorCentral", ex.getMessage());
+          System.err.println("->ServidorCentral: ERROR: " + ex.getMessage());
             System.exit(1);
         }
 
 	}
-
+	@Override
 	public ArrayList<String> getPronostico(String horoscopo, String fecha, String clientName) {
 		// Se verifica que la solicitud sea válida y se responde con un
 		// pronostico si lo es, o un mensaje de error en caso contrario.

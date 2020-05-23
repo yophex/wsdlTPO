@@ -23,11 +23,12 @@ public class ServerHoroscopoImp implements ServerHoroscopo {
 	        "La luna muestra su nueva cara, todo indica que algo nuevo va a ocurrir en su contexto y le cambiara la vida para siempre",
 	        "Momentos para trabajar duro en sus proyectos y metas, no deje que nadie le diga que no puede hacer algo",
 	        "Aprovecha para darte atencion a las pequeï¿½as cosas que aportan a que tu vida se lleve a cabo con serenidad",
-	        "No hagas caso a la gente que habla mal de tu persona, sigue tus instintos, ellos te llevaran muy lejos"};
+	        "No hagas caso a la gente que habla mal de tu persona, sigue tus instintos, ellos te llevaran muy lejos",
+	        "Aveces menos es más","Quedate en casa, cuidate a vs mismo y los demás, juntos podemos"};
 	public ServerHoroscopoImp(){
         super();
 
-        Log.logInfo("ServidorHoroscopo", "Se crea una nueva instancia con id: " );
+        //Log.logInfo("ServidorHoroscopo", "Se crea una nueva instancia con id: "+1);
         System.out.println("->ServidorHoroscopo: Se crea una nueva instancia");
         this.protocoloHoroscopo = new ArrayList<>();
         this.protocoloHoroscopo.addAll(Arrays.asList(
@@ -38,29 +39,29 @@ public class ServerHoroscopoImp implements ServerHoroscopo {
         //Se verifica que la horoscopo sea vï¿½lida y se responde con un 
         //pronostico si lo es, o un mensaje de error en caso contrario
         String servidorHoroscopoStr = "ServidorHoroscopo-" + clientName;
-        Log.logInfo(servidorHoroscopoStr, "Se solicita un horoscopo para el signo: " + horoscopo);
+        //Log.logInfo(servidorHoroscopoStr, "Se solicita un horoscopo para el signo: " + horoscopo);
         System.out.println("->ServidorHoroscopo: Se solicita un horoscopo");
         String respuesta;
         Random aleatorio = new Random();
 
         if (horoscopo.length() == 2 && protocoloHoroscopo.contains(horoscopo)) {
-            Log.logInfo(servidorHoroscopoStr, "Solicitud valida");
+            //Log.logInfo(servidorHoroscopoStr, "Solicitud valida");
             synchronized (this) {
                 //Se obtiene una predicciï¿½n aleatoria y se simula su procesamiento (tiempo de espera 1 seg)
                 try {
                     this.wait(1000);
                 } catch (InterruptedException ex) {
-                    Log.logError(servidorHoroscopoStr, "Error en el procesamiento del pronostico: " + ex.getMessage());
+                    //Log.logError(servidorHoroscopoStr, "Error en el procesamiento del pronostico: " + ex.getMessage());
                     System.err.println("->ServidorHoroscopo: Error en el procesamiento del pronostico");
                     return "ESH";
                 }
                 respuesta = pronostico[aleatorio.nextInt(pronostico.length)];
             }
         } else {
-            Log.logError(servidorHoroscopoStr, "Solicitud invalida");
+            //Log.logError(servidorHoroscopoStr, "Solicitud invalida");
             respuesta = "PH"; //Solicitud no valida por el protocolo
         }
-        Log.logInfo(servidorHoroscopoStr, "Se responde al Cliente: " + respuesta);
+        //Log.logInfo(servidorHoroscopoStr, "Se responde al Cliente: " + respuesta);
         System.out.println("->ServidorHoroscopo: Se responde a una horoscopo");
         return respuesta;
     }
