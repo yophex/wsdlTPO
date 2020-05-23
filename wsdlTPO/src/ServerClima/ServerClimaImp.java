@@ -1,12 +1,12 @@
 package ServerClima;
 
+import Log.Log;
 import java.util.Random;
 
 import javax.jws.WebService;
+
 //Service Implementation
-
 @WebService(endpointInterface = "ServerClima.ServerClima")
-
 public class ServerClimaImp implements ServerClima {
 
     private String[] pronostico;
@@ -14,7 +14,7 @@ public class ServerClimaImp implements ServerClima {
     public ServerClimaImp() {
         super();
 
-        //Log.logInfo("ServidorClima", "Se crea una nueva instancia con id: " + this.ref);
+        Log.logInfo("ServidorClima", "Se crea una nueva instancia.");
         System.out.println("->ServidorClima: Se crea una nueva instancia");
         this.pronostico = new String[]{"Lluvias Aisladas", "Lluvias Intensas", "Despejado", "Tormentas",
             "Nublado", "Viento", "Chaparrones", "Ciclon", "Rafagas Fuertes", "Relampagos"};
@@ -25,7 +25,7 @@ public class ServerClimaImp implements ServerClima {
         //Se verifica que la solicitud sea v�lida y se responde con un 
         //pronostico si lo es, o un mensaje de error en caso contrario
         String servidorClimaStr = "ServidorClima-" + clientName;
-        //Log.logInfo(servidorClimaStr, "Se solicita un pronostico del clima para la fecha: " + fecha);
+        Log.logInfo(servidorClimaStr, "Se solicita un pronostico del clima para la fecha: " + fecha);
         System.out.println("->ServidorClima: Se solicita un horoscopo");
         String respuesta, rtaValidacion;
         Random aleatorio = new Random();
@@ -34,7 +34,7 @@ public class ServerClimaImp implements ServerClima {
 
         rtaValidacion = validarFecha(fecha);
         if (rtaValidacion.equals("valida")) {
-            //    Log.logInfo(servidorClimaStr, "Solicitud valida");
+            Log.logInfo(servidorClimaStr, "Solicitud valida");
             dia = Integer.parseInt(fecha.substring(0, indexA));
             mes = Integer.parseInt(fecha.substring(indexA + 1, indexB));
             anio = Integer.parseInt(fecha.substring(indexB + 1));
@@ -43,7 +43,7 @@ public class ServerClimaImp implements ServerClima {
                 try {
                     this.wait(1000);
                 } catch (InterruptedException ex) {
-                    //            Log.logError(servidorClimaStr, "Error en el procesamiento del pronostico: " + ex.getMessage());
+                    Log.logError(servidorClimaStr, "Error en el procesamiento del pronostico: " + ex.getMessage());
                     System.err.println("->ServidorClima: Error en el procesamiento del pronostico");
                     return "ESC";
                 }
@@ -52,7 +52,7 @@ public class ServerClimaImp implements ServerClima {
             respuesta = this.pronostico[indiceRandom];
         } else {
             //Solicitud no valida por el protocolo
-            //    Log.logError(servidorClimaStr, "Solicitud invalida");
+            Log.logError(servidorClimaStr, "Solicitud invalida");
             respuesta = rtaValidacion;
         }
         // Log.logInfo(servidorClimaStr, "Se responde al Cliente: " + respuesta);
