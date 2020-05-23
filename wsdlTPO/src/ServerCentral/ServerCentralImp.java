@@ -28,7 +28,7 @@ public class ServerCentralImp implements ServerCentral {
 	private Semaphore semaforoCache;
 	private ArrayList<String> protocoloHoroscopo;
 
-	public ServerCentralImp(String ipHoroscopo, int portHoroscopo, String ipClima, int portClima) throws MalformedURLException, RemoteException{
+	public ServerCentralImp(String ipHoroscopo, int portHoroscopo, String ipClima, int portClima){
 		Hashtable<String, String[]> mapa = new Hashtable<>();
         this.cache = Collections.synchronizedMap(mapa);
         this.semaforoCache = new Semaphore(1);

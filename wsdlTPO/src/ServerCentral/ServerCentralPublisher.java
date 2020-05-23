@@ -13,7 +13,7 @@ public class ServerCentralPublisher {
 	private static String ipAdress = "127.0.0.1"; // La ip se define local por defecto
 	private static int port=10003; //CAMBIARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 
-	public static void main(String[] args) throws RemoteException {
+	public static void main(String[] args) {
 		String ipHoroscopo, ipClima;
 		int portHoroscopo, portClima;
 		/*if (args.length != 5) {
