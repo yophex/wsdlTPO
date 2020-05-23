@@ -9,7 +9,7 @@ import ServerCentral.ServerCentral;
 import ServerHoroscopo.ServerHoroscopo;
 import ServerClima.ServerClima;
  
-public class Client{
+public class ClientTest{
  	public static void main(String[] args) throws Exception {
  		String ipAdress="127.0.0.1";
  		int portH=10000,portC=10001,portCe=10003;

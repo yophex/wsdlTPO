@@ -4,16 +4,14 @@ import java.util.Random;
 
 import javax.jws.WebService;
 //Service Implementation
+
 @WebService(endpointInterface = "ServerClima.ServerClima")
 
+public class ServerClimaImp implements ServerClima {
 
+    private String[] pronostico;
 
-public class ServerClimaImp implements ServerClima{
-	
-
-	private String[] pronostico;    
-
-    public ServerClimaImp(){
+    public ServerClimaImp() {
         super();
 
         //Log.logInfo("ServidorClima", "Se crea una nueva instancia con id: " + this.ref);
@@ -21,10 +19,10 @@ public class ServerClimaImp implements ServerClima{
         this.pronostico = new String[]{"Lluvias Aisladas", "Lluvias Intensas", "Despejado", "Tormentas",
             "Nublado", "Viento", "Chaparrones", "Ciclon", "Rafagas Fuertes", "Relampagos"};
     }
-    
+
     @Override
-    public String getClima(String fecha, String clientName){
-        //Se verifica que la solicitud sea válida y se responde con un 
+    public String getClima(String fecha, String clientName) {
+        //Se verifica que la solicitud sea vï¿½lida y se responde con un 
         //pronostico si lo es, o un mensaje de error en caso contrario
         String servidorClimaStr = "ServidorClima-" + clientName;
         //Log.logInfo(servidorClimaStr, "Se solicita un pronostico del clima para la fecha: " + fecha);
@@ -36,16 +34,16 @@ public class ServerClimaImp implements ServerClima{
 
         rtaValidacion = validarFecha(fecha);
         if (rtaValidacion.equals("valida")) {
-        //    Log.logInfo(servidorClimaStr, "Solicitud valida");
+            //    Log.logInfo(servidorClimaStr, "Solicitud valida");
             dia = Integer.parseInt(fecha.substring(0, indexA));
             mes = Integer.parseInt(fecha.substring(indexA + 1, indexB));
             anio = Integer.parseInt(fecha.substring(indexB + 1));
             synchronized (this) {
-                //Se obtiene una predicción aleatoria y se simula su procesamiento (tiempo de espera 1 seg)
+                //Se obtiene una predicciï¿½n aleatoria y se simula su procesamiento (tiempo de espera 1 seg)
                 try {
                     this.wait(1000);
                 } catch (InterruptedException ex) {
-        //            Log.logError(servidorClimaStr, "Error en el procesamiento del pronostico: " + ex.getMessage());
+                    //            Log.logError(servidorClimaStr, "Error en el procesamiento del pronostico: " + ex.getMessage());
                     System.err.println("->ServidorClima: Error en el procesamiento del pronostico");
                     return "ESC";
                 }
@@ -54,15 +52,14 @@ public class ServerClimaImp implements ServerClima{
             respuesta = this.pronostico[indiceRandom];
         } else {
             //Solicitud no valida por el protocolo
-        //    Log.logError(servidorClimaStr, "Solicitud invalida");
+            //    Log.logError(servidorClimaStr, "Solicitud invalida");
             respuesta = rtaValidacion;
         }
-       // Log.logInfo(servidorClimaStr, "Se responde al Cliente: " + respuesta);
+        // Log.logInfo(servidorClimaStr, "Se responde al Cliente: " + respuesta);
         System.out.println("->ServidorClima: Se responde a una solicitud");
         return respuesta;
     }
-	
-	
+
     private String validarFecha(String fecha) {
         //Verifica que el parametro recibido cumple el protocolo y es una fecha valida
         //retorna "valida" si lo es o el tipo de error si no
@@ -70,10 +67,10 @@ public class ServerClimaImp implements ServerClima{
         int indexA = fecha.indexOf("-"), indexB = fecha.indexOf("-", indexA + 1),
                 dia, mes, anio;
 
-        //Se verifica que la fecha recibida cumpla el formato DD-MM-A... (el año puede ser desde 0 en adelante)        
+        //Se verifica que la fecha recibida cumpla el formato DD-MM-A... (el aï¿½o puede ser desde 0 en adelante)        
         if (indexA == 2 && indexB == 5 && fecha.length() >= 7) {
             try {
-                //Luego se obtiene los valores para cada dia, mes y año.
+                //Luego se obtiene los valores para cada dia, mes y aï¿½o.
                 dia = Integer.parseInt(fecha.substring(0, indexA));
                 mes = Integer.parseInt(fecha.substring(indexA + 1, indexB));
                 anio = Integer.parseInt(fecha.substring(indexB + 1));
@@ -83,7 +80,7 @@ public class ServerClimaImp implements ServerClima{
             }
             //Se controla que el dia sea valido
             if (dia >= 1 && dia <= 31) {
-                //Si el mes es febrero, se verifica si el año es bisiesto, y que el dia sea 
+                //Si el mes es febrero, se verifica si el aï¿½o es bisiesto, y que el dia sea 
                 //menor a 29 dias, caso contrario 28 dias                    
                 if (mes == 2) {
                     if ((anio % 4 == 0 && anio % 100 != 0) || anio % 400 == 0) {
@@ -112,42 +109,15 @@ public class ServerClimaImp implements ServerClima{
                     respuesta = "FM";
                 }
             } else {
-                //Error en el dia recibido, la fecha cuenta con más de 31 días
+                //Error en el dia recibido, la fecha cuenta con mï¿½s de 31 dï¿½as
                 respuesta = "FD";
             }
 
         } else {
-            //Wrror en el formato de la fecha recibida, no se respetó el formato
+            //Wrror en el formato de la fecha recibida, no se respetï¿½ el formato
             respuesta = "PC"; //Protocolo Clima
         }
         return respuesta;
     }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
